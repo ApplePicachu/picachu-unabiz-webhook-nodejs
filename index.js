@@ -32,6 +32,26 @@ app.post('/', function (req, res) {
     });
     post_req.write(JSON.stringify(req.body));
     post_req.end();
+
+    var post_options2 = {
+        host: '103.125.218.79',
+        port: '1880',
+        path: '/unabiz',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(JSON.stringify(req.body))
+        }
+    };
+    // Set up the request
+    var post_req2 = http.request(post_options2, function (res) {
+        res.setEncoding('utf8');
+        res.on('data', function (chunk) {
+            console.log('Response: ' + chunk);
+        });
+    });
+    post_req2.write(JSON.stringify(req.body));
+    post_req2.end();
 })
 
 //因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
